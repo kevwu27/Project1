@@ -23,6 +23,8 @@ public class PositionRayCaster : MonoBehaviour
     private Rigidbody grabbedRb;
     private Vector3 grabOffsetLocal;
 
+    private bool wasGripping = false;
+
     void Awake()
     {
         lr = GetComponent<LineRenderer>();
@@ -37,11 +39,13 @@ public class PositionRayCaster : MonoBehaviour
 
         float gripValue = gripAction.action.ReadValue<float>();
         bool gripDown = gripValue > 0.5f;
+        bool gripPressed = gripDown && !wasGripping;
+        wasGripping = gripDown; 
 
         bool hitSomething = Physics.Raycast(start, transform.forward, out RaycastHit hit, maxRayLength, interactableLayers);
 
         if (hitSomething)
-        {
+        {   
             end = hit.point;
             var target = hit.collider.GetComponentInParent<XRGrabInteractable>();
 
@@ -55,13 +59,19 @@ public class PositionRayCaster : MonoBehaviour
                 lr.startColor = Color.red;
                 lr.endColor = Color.red;
                 HandleHover(target);
-                if (gripDown && grabbed == null && target != null)
-                    BeginGrab(target);
+                // if (gripDown && grabbed == null && target != null)
+                //     BeginGrab(target);
             }
 
-            if (!gripDown && grabbed != null)
-                EndGrab();
+            if (gripPressed)
+            {
+                if (grabbed == null && target != null)
+                    BeginGrab(target);
+                else if (grabbed != null)
+                    EndGrab();
+            }
         }
+
         else
         {
             lr.startColor = Color.red;
@@ -79,6 +89,7 @@ public class PositionRayCaster : MonoBehaviour
             Vector3 worldOffset = transform.TransformVector(grabOffsetLocal);
             Vector3 targetPos = transform.position + worldOffset;
             grabbedRb.MovePosition(targetPos);
+            // grabbedRb.MovePosition(transform.position);
             grabbedRb.MoveRotation(transform.rotation);
         }
     }
