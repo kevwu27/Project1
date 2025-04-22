@@ -12,6 +12,8 @@ public class ToggleInteractor : XRRayInteractor
 
     private readonly List<IXRInteractable> targets = new();
 
+    public Transform overrideAttachTransform;
+    public bool useOverrideAttach = false;
     protected override void Awake()
     {
         base.Awake();
@@ -46,9 +48,20 @@ public class ToggleInteractor : XRRayInteractor
                 // Deselect current
                 interactionManager.SelectExit(this, currentToggleSelection);
                 currentToggleSelection = null;
+                useOverrideAttach = false;
             }
         }
 
         wasSelectPressedLastFrame = isSelectPressed;
+    }
+
+    public override Transform GetAttachTransform(IXRInteractable interactable)
+    {
+        if (useOverrideAttach && overrideAttachTransform != null)
+        {
+            return overrideAttachTransform;
+        }
+
+        return base.GetAttachTransform(interactable);
     }
 }

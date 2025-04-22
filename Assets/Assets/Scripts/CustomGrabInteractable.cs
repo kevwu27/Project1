@@ -13,7 +13,22 @@ public class CustomGrabInteractable : XRGrabInteractable
         twoHandManipulation = GetComponent<TwoHandManipulation>();
         if (twoHandManipulation != null)
         {
-            twoHandManipulation.StartManipulating();
+            // twoHandManipulation.StartManipulating();
+            var controllerObject = args.interactorObject.transform;
+            string controllerTag = controllerObject.tag;
+            Debug.Log($"Grabbed by: {controllerTag}");
+            if (controllerObject.name.ToLower().Contains("left"))
+            {
+                twoHandManipulation.StartManipulating(TwoHandManipulation.ControllerSide.Left);
+            }
+            else if (controllerObject.name.ToLower().Contains("right"))
+            {
+                twoHandManipulation.StartManipulating(TwoHandManipulation.ControllerSide.Right);
+            }
+            else
+            {
+                twoHandManipulation.StartManipulating(TwoHandManipulation.ControllerSide.None);
+            }
         }
     }
 

@@ -22,7 +22,7 @@ public class RightControllerMovement : MonoBehaviour {
             forward.y = 0; // Ensure we don't move vertically (keep the y-axis zeroed)
             forward.Normalize(); // Normalize to get only direction, without magnitude
 
-            Vector3 right = rightController.right; // Direction of movement along the right axis (relative to controller's orientation)
+            Vector3 right = -rightController.right; // Direction of movement along the right axis (relative to controller's orientation)
             right.y = 0; // Keep the movement on the ground (no vertical movement)
             right.Normalize(); // Normalize for the same reason
 
