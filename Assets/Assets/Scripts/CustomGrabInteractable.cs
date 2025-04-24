@@ -4,6 +4,37 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class CustomGrabInteractable : XRGrabInteractable
 {
     private TwoHandManipulation twoHandManipulation;
+    public Material highlightMaterial;
+    private Material originalMaterial;
+    private MeshRenderer meshRenderer;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            originalMaterial = meshRenderer.material;
+        }
+    }
+
+    protected override void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        base.OnHoverEntered(args);
+        if (meshRenderer != null && highlightMaterial != null)
+        {
+            meshRenderer.material = highlightMaterial;
+        }
+    }
+
+    protected override void OnHoverExited(HoverExitEventArgs args)
+    {
+        base.OnHoverExited(args);
+        if (meshRenderer != null && originalMaterial != null)
+        {
+            meshRenderer.material = originalMaterial;
+        }
+    }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
