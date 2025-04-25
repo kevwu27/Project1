@@ -10,7 +10,7 @@ public class CustomLeftToggleDirectInteractor : XRDirectInteractor
     private bool wasPressedLastFrame = false;
     private IXRSelectInteractable currentToggleSelection = null;
 
-    private readonly List<IXRInteractable> validTargets = new();
+    private readonly List<IXRInteractable> targets = new();
 
     public Transform overrideAttachTransform;
     public bool useOverrideAttach = false;
@@ -35,17 +35,13 @@ public class CustomLeftToggleDirectInteractor : XRDirectInteractor
             // On press
             if (currentToggleSelection == null)
             {
-                validTargets.Clear();
-                interactionManager.GetValidTargets(this, validTargets);
+                targets.Clear();
+                interactionManager.GetValidTargets(this, targets);
 
-                foreach (var target in validTargets)
+                if (targets.Count > 0 && targets[0] is IXRSelectInteractable interactable)
                 {
-                    if (target is IXRSelectInteractable interactable)
-                    {
-                        interactionManager.SelectEnter(this, interactable);
-                        currentToggleSelection = interactable;
-                        break;
-                    }
+                    interactionManager.SelectEnter(this, interactable);
+                    currentToggleSelection = interactable;
                 }
             }
             else

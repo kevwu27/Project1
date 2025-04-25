@@ -70,6 +70,7 @@ public class TwoHandManipulation : MonoBehaviour
                  (selectedBy == ControllerSide.Right && leftTriggerPressed))
         {
             // One controller selected the object, the other trigger is pressed: rotate
+            Debug.Log("Left grip, right rotate");
             Transform otherController = (selectedBy == ControllerSide.Left) ? rightController : leftController;
             Quaternion currentRotation = otherController.rotation;
             Quaternion deltaRotation = currentRotation * Quaternion.Inverse(lastOtherControllerRotation);

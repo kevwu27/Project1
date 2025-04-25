@@ -7,6 +7,8 @@ public class VRPrefabSpawner : MonoBehaviour
 {
     public GameObject prefabA;
     public GameObject prefabB;
+    public GameObject prefabC;
+    public GameObject prefabD;
     public XRRayInteractor rightRayInteractor;
 
     public Transform left;
@@ -14,6 +16,8 @@ public class VRPrefabSpawner : MonoBehaviour
 
     public InputActionProperty buttonAAction;
     public InputActionProperty buttonBAction;
+    public InputActionProperty buttonXAction;
+    public InputActionProperty buttonYAction;
 
     public float spawnDistance = 10.5f;
 
@@ -30,6 +34,14 @@ public class VRPrefabSpawner : MonoBehaviour
         {
             SpawnAndSelect(prefabB);
         }
+        else if (buttonXAction.action.WasPressedThisFrame())
+        {
+            SpawnAndSelect(prefabC);
+        }
+        else if (buttonYAction.action.WasPressedThisFrame())
+        {
+            SpawnAndSelect(prefabD);
+        }
     }
 
     void SpawnAndSelect(GameObject prefab)
@@ -41,17 +53,6 @@ public class VRPrefabSpawner : MonoBehaviour
 
         spawned.transform.rotation = Quaternion.LookRotation(rayOrigin.forward);
 
-        // if (spawned.TryGetComponent<TwoHandManipulation>(out var behavior))
-        // {
-        //     behavior.leftController = left;
-        //     behavior.rightController = right;
-        // }
-
-        // if (spawned.TryGetComponent<IXRSelectInteractable>(out var interactable))
-        // {
-        //     var manager = rightRayInteractor.interactionManager;
-        //     manager.SelectEnter(rightRayInteractor, interactable);
-        // }
         StartCoroutine(DelayedSelect(spawned));
     }
 
