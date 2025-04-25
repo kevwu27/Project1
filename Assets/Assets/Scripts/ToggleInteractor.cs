@@ -83,7 +83,7 @@ public class ToggleInteractor : XRRayInteractor
                     // TeleportTo(hit.point);
 
                     Vector3 marker = teleportPointA;
-                    marker.y = 0.5f;
+                    marker.y = 0.1f;
                     currentTeleportMarker = Instantiate(teleportMarker, marker, Quaternion.identity);
                 }
             }
@@ -114,9 +114,9 @@ public class ToggleInteractor : XRRayInteractor
         // current.position = destination;
         current.SetPositionAndRotation(destination, rotation);
 
-        // if (currentTeleportMarker != null)
-        // {
-        //     Destroy(currentTeleportMarker);
-        // }
+         if (currentTeleportMarker != null)
+         {
+             Destroy(currentTeleportMarker);
+         }
     }
 }
